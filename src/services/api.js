@@ -80,9 +80,104 @@ export const apiService = {
 
   // Orders
   postOrder: (products, codeVoucher, paymentMethod, name, phone, address) =>
-    axiosInstance.post("/orders", { products, codeVoucher, paymentMethod, name, phone, address }),
+    axiosInstance.post("/orders", {
+      products,
+      codeVoucher,
+      paymentMethod,
+      name,
+      phone,
+      address,
+    }),
   getOrders: () => axiosInstance.get("/orders"),
   getOrder: (id) => axiosInstance.get(`/orders/${id}`),
+
+  // Admin
+  // Orders
+  getAdminOrders: (
+    page = 1,
+    limit = 10,
+    status = "",
+    search = "",
+    startDate = "",
+    endDate = "",
+    minTotal = 0,
+    maxTotal = 0,
+  ) => {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+      ...(status && { status }),
+      ...(search && { search }),
+      ...(startDate && { startDate: new Date(startDate).toISOString() }),
+      ...(endDate && { endDate: new Date(endDate).toISOString() }),
+      ...(minTotal > 0 && { minTotal: minTotal.toString() }),
+      ...(maxTotal > 0 && { maxTotal: maxTotal.toString() }),
+    });
+
+    return axiosInstance.get(`/admin/orders?${params.toString()}`);
+  },
+  getAdminAOrder: (id) => axiosInstance.get(`/admin/orders/${id}`),
+  putAdminOrder: (id, status) =>
+    axiosInstance.put(`/admin/orders/${id}`, { status }),
+
+  // Products
+  putProduct: (id, name, description, price, infos) =>
+    axiosInstance.put(`/products/${id}`, {
+      name,
+      description,
+      price,
+      infos,
+    }),
+  deleteProduct: (id) => axiosInstance.delete(`/products/${id}`),
+  postProduct: (formData) =>
+    axiosInstance.post("/products", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }),
+
+  // Promotions
+  postPromotion: (
+    product,
+    name,
+    description,
+    discountPercent,
+    startDate,
+    endDate,
+  ) =>
+    axiosInstance.post("/promotion", {
+      product,
+      name,
+      description,
+      discountPercent,
+      startDate,
+      endDate,
+    }),
+
+  // Support Admin
+  getAdminSupportTickets: () => axiosInstance.get("/admin/support-tickets"),
+  putAdminSupportTicket: (id, respond) =>
+    axiosInstance.put(`/admin/support-tickets/${id}`, { respond }),
+
+  // Vouchers
+  getVouchers: () => axiosInstance.get("/vouchers"),
+  getVoucherStats: (id) => axiosInstance.get(`/vouchers/${id}/stats`),
+  putVoucher: (id, discountPercent, expirationDate, quantity) =>
+    axiosInstance.put(`/vouchers/${id}`, {
+      discountPercent,
+      expirationDate,
+      quantity,
+    }),
+  postVoucher: (code, discountPercent, expirationDate, quantity) =>
+    axiosInstance.post("/vouchers", {
+      code,
+      discountPercent,
+      expirationDate,
+      quantity,
+    }),
+  postDeactivateExpired: () =>
+    axiosInstance.post("/vouchers/deactivate-expired"),
+  deleteVoucher: (id) => axiosInstance.delete(`/vouchers/${id}`),
 };
 
 export default apiService;

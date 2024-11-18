@@ -23,8 +23,8 @@ const AuthHandler = () => {
         console.log("Profile:", profile);
         dispatch(loginSuccess(profile));
 
-        if (profile.role === "ADMIN") {
-          //   navigate("/admins");
+        if (profile.role === "ADMIN" || profile.role === "OWNER") {
+          navigate("/admin");
         }
       });
 

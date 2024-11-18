@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import ProductItem from "./ProductItem";
 import apiService from "../../../services/api";
 
 const ProductList = (props) => {
   const navigate = useNavigate();
+
+  const seenProducts = useSelector((state) => state.products);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     switch (props.api) {
       case "getProducs":
         apiService
-          .getSearchProducts(1, 8)
+          .getSearchProducts(1, 8, "", "", "", "", "desc")
           .then((res) => {
             setProducts(res?.data?.data?.products);
           })
@@ -29,14 +32,23 @@ const ProductList = (props) => {
           .catch((err) => {
             console.log("ERROR: ", err);
           });
+
         break;
       case "searchProducts":
         setProducts(props.products);
+        break;
+      case "seenProducts":
+        console.log("seenProducts: ", seenProducts);
+        setProducts(seenProducts.products);
         break;
       default:
         break;
     }
   }, [props.products]);
+
+  useEffect(() => {
+    console.log("props.products: ", products);
+  }, [products]);
 
   return (
     <>
@@ -45,7 +57,7 @@ const ProductList = (props) => {
           {props.nameList}
         </h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((product, index) => (
+          {products?.map((product, index) => (
             <ProductItem
               key={index}
               image={product.imageUrl[0]}
@@ -57,7 +69,7 @@ const ProductList = (props) => {
               onClick={() => navigate(`/products/${product._id}`)}
             />
           ))}
-          {products.length === 0 && (
+          {products?.length === 0 && (
             <div className="flex flex-col items-center justify-center py-12">
               <svg
                 className="mb-4 h-24 w-24 animate-pulse text-[#FF3D00]"

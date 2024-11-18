@@ -101,7 +101,7 @@ const Profile = () => {
     apiService
       .getProfile(auth.token)
       .then((res) => {
-        console.log(res?.data?.data?.user);
+        // console.log(res?.data?.data?.user);
         setUser(res?.data?.data?.user);
       })
       .catch((err) => {

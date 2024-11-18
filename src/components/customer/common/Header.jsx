@@ -291,6 +291,7 @@ const Header = () => {
                   onClick={() => {
                     dispatch(logout());
                     handleClick();
+                    navigate("/login");
                   }}
                 >
                   Đăng xuất
@@ -336,9 +337,6 @@ const Header = () => {
                 data-original="#000000"
               ></path>
             </svg>
-            {/* <span className="absolute left-auto top-0 -ml-1 rounded-full bg-red-500 px-1 py-0 text-xs text-white">
-              0
-            </span> */}
           </span>
 
           <button onClick={toggleMenu} className="!ml-7 lg:hidden">

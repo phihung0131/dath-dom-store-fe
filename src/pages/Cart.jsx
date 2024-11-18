@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { User, Phone, MapPin, Ticket, Wallet } from "lucide-react";
 import Header from "../components/customer/common/Header";
 import Footer from "../components/customer/common/Footer";
 import apiService from "../services/api";
 
 const Cart = () => {
+  const navigate = useNavigate();
+
   const [carts, setCarts] = useState({});
   const [temp, setTemp] = useState(0);
 
@@ -74,7 +77,10 @@ const Cart = () => {
         if (res?.data?.data?.order?.payment?.paymentUrl) {
           window.location.href = res?.data?.data?.order?.payment?.paymentUrl;
         } else {
+          console.log(res.data.data.order);
           alert(res.data.message);
+
+          navigate(`/orders/${res.data.data.order.orderID}`);
         }
 
         setTemp(temp + 1);

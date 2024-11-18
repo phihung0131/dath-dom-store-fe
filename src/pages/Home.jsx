@@ -33,7 +33,7 @@ const Home = () => {
         Xem thêm
       </Link>
 
-      <ProductList nameList="Sản phẩm bạn đã xem" />
+      <ProductList nameList="Sản phẩm bạn đã xem" api="seenProducts" />
 
       <Footer />
       <div className="fixed left-0 top-0 w-full">
