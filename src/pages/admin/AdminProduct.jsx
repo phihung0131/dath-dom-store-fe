@@ -17,8 +17,6 @@ const AdminProduct = () => {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const handleSubmit = (formData) => {
-    // Send formData to your backend API
-    // Example: axios.post('/products', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     setIsModalShow(false);
   };
 
@@ -38,6 +36,8 @@ const AdminProduct = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     apiService
       .getSearchProducts(
         filter.page,

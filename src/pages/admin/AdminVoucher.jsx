@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Trash2, Edit, Eye, Plus } from "lucide-react";
+import { useSelector } from "react-redux";
+
 import CreateVoucherModal from "../../components/admin/voucher/CreateVoucherModal";
 import EditVoucherModal from "../../components/admin/voucher/EditVoucherModal";
 import VoucherDetailModal from "../../components/admin/voucher/VoucherDetailModal";
 import apiService from "../../services/api";
 
 const AdminVoucher = () => {
+  const auth = useSelector((state) => state.auth);
   const [vouchers, setVouchers] = useState([]);
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -62,6 +65,8 @@ const AdminVoucher = () => {
   const totalPages = Math.ceil(vouchers.length / itemsPerPage);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     apiService
       .getVouchers()
       .then((res) => setVouchers(res.data.data.vouchers))
@@ -75,12 +80,14 @@ const AdminVoucher = () => {
           Quản Lý Voucher
         </h1>
         <div className="flex space-x-2">
-          <button
-            onClick={() => setIsCreateModalOpen(true)}
-            className="flex items-center rounded bg-[#ff3D00] p-2 text-white"
-          >
-            <Plus className="mr-2" /> Tạo Voucher
-          </button>
+          {auth.role === "OWNER" && (
+            <button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="flex items-center rounded bg-[#ff3D00] p-2 text-white"
+            >
+              <Plus className="mr-2" /> Tạo Voucher
+            </button>
+          )}
           <button
             onClick={handleDeleteExpiredVouchers}
             className="flex items-center rounded bg-red-600 p-2 text-white"
@@ -120,21 +127,26 @@ const AdminVoucher = () => {
                   >
                     <Eye />
                   </button>
-                  <button
-                    onClick={() => {
-                      setCurrentVoucher(voucher);
-                      setIsEditModalOpen(true);
-                    }}
-                    className="rounded p-1 text-green-600 hover:bg-green-100"
-                  >
-                    <Edit />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteVoucher(voucher._id)}
-                    className="rounded p-1 text-red-600 hover:bg-red-100"
-                  >
-                    <Trash2 />
-                  </button>
+                  {auth.role === "OWNER" && (
+                    <>
+                      <button
+                        onClick={() => {
+                          setCurrentVoucher(voucher);
+                          setIsEditModalOpen(true);
+                        }}
+                        className="rounded p-1 text-green-600 hover:bg-green-100"
+                      >
+                        <Edit />
+                      </button>
+
+                      <button
+                        onClick={() => handleDeleteVoucher(voucher._id)}
+                        className="rounded p-1 text-red-600 hover:bg-red-100"
+                      >
+                        <Trash2 />
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}

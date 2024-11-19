@@ -49,6 +49,10 @@ export const apiService = {
       currentPassword,
       newPassword,
     }),
+  getUsers: (role) => axiosInstance.get(`/users/${role}`),
+  postGrantAdmin: (mail) => axiosInstance.post("/owner/grant-admin", { mail }),
+  postRevokeAdmin: (mail) =>
+    axiosInstance.post("/owner/revoke-admin", { mail }),
 
   // Support
   getSupportTickers: () => axiosInstance.get("/customer/support-tickets"),
@@ -153,6 +157,27 @@ export const apiService = {
       startDate,
       endDate,
     }),
+  getPromotionsForProduct: (productId) =>
+    axiosInstance.get(`/promotion/product/${productId}`),
+  deletePromotion: (id) => axiosInstance.delete(`/promotion/${id}`),
+  putPromotion: (
+    id,
+    product,
+    name,
+    description,
+    discountPercent,
+    startDate,
+    endDate,
+  ) =>
+    axiosInstance.put(`/promotion/${id}`, {
+      product,
+      name,
+      description,
+      discountPercent,
+      startDate,
+      endDate,
+    }),
+  getPromotions: () => axiosInstance.get("/promotion"),
 
   // Support Admin
   getAdminSupportTickets: () => axiosInstance.get("/admin/support-tickets"),
@@ -178,6 +203,16 @@ export const apiService = {
   postDeactivateExpired: () =>
     axiosInstance.post("/vouchers/deactivate-expired"),
   deleteVoucher: (id) => axiosInstance.delete(`/vouchers/${id}`),
+
+  // Reports
+  getReportOrdersSummary: () => axiosInstance.get("/reports/orders/summary"),
+  getReportRevenue: (period) => axiosInstance.get("/reports/revenue/" + period),
+  getReportOverview: (period) =>
+    axiosInstance.get("/reports/business-overview/" + period),
+  getReportPromotion: (period) =>
+    axiosInstance.get("/reports/promotion-effectiveness/" + period),
+  getReportCategory: (period) =>
+    axiosInstance.get("/reports/revenue-by-category/" + period),
 };
 
 export default apiService;

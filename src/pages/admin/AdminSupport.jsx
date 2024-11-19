@@ -21,34 +21,7 @@ const AdminSupport = () => {
   const [ticketsPerPage] = useState(10);
 
   useEffect(() => {
-    // const fetchedTickets = [
-    //   {
-    //     "_id": "673b6391fe73671eb36973cd",
-    //     "customer": "673b636afe73671eb3697268",
-    //     "adminRespond": null,
-    //     "status": "pending",
-    //     "subject": "Em mắc ẻ ",
-    //     "description": "Em mún đi ẻ",
-    //     "respond": "",
-    //     "deleted": false,
-    //     "createdAt": "2024-11-18T15:56:01.448Z",
-    //     "updatedAt": "2024-11-18T15:56:01.448Z",
-    //     "__v": 0
-    //   },
-    //   {
-    //     "_id": "673a2b773bb44ae702b7248a",
-    //     "customer": "673a2b103bb44ae702b71f1d",
-    //     "adminRespond": null,
-    //     "status": "pending",
-    //     "subject": "123",
-    //     "description": "123",
-    //     "respond": "",
-    //     "deleted": false,
-    //     "createdAt": "2024-11-17T17:44:23.304Z",
-    //     "updatedAt": "2024-11-17T17:44:23.304Z",
-    //     "__v": 0
-    //   }
-    // ];
+    window.scrollTo(0, 0);
 
     apiService
       .getAdminSupportTickets()

@@ -49,7 +49,16 @@ const StatusEdit = ({ currentStatus, orderId, setTemp }) => {
   };
 
   const handleSave = () => {
-    apiService.putAdminOrder(orderId, selectedStatus);
+    apiService
+      .putAdminOrder(orderId, selectedStatus)
+      .then((res) => {
+        alert("Cập nhật trạng thái thành công");
+      })
+      .catch((err) => {
+        alert("Cập nhật trạng thái thất bại");
+        console.log(err);
+      });
+    console.log(selectedStatus);
     setTemp((prev) => prev + 1);
     setIsEditing(false);
   };
@@ -81,10 +90,11 @@ const StatusEdit = ({ currentStatus, orderId, setTemp }) => {
   return (
     <div className="flex items-center gap-2">
       <select
-        value={selectedStatus}
+        value="Trạng thái"
         onChange={(e) => setSelectedStatus(e.target.value)}
         className="rounded-md border p-2 text-sm"
       >
+        <option value="Trạng thái">Chọn trạng thái</option>
         {Object.keys(statusConfig).map((status) => (
           <option key={status} value={status}>
             {status}
@@ -92,7 +102,7 @@ const StatusEdit = ({ currentStatus, orderId, setTemp }) => {
         ))}
       </select>
       <button
-        onClick={handleSave}
+        onClick={() => handleSave()}
         className="rounded-md bg-green-500 px-3 py-1 text-sm text-white hover:bg-green-600"
       >
         Save
@@ -130,6 +140,8 @@ const AdminOrderDetail = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     apiService
       .getAdminAOrder(id)
       .then((res) => {
@@ -151,11 +163,7 @@ const AdminOrderDetail = () => {
               <Package className="text-[#FF3D00]" />
               Đơn hàng chi tiết
             </h1>
-            <StatusEdit
-              currentStatus={order.status}
-              orderId={order._id}
-              setTemp={setTemp}
-            />
+            <StatusEdit currentStatus={order.status} />
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             <div className="rounded-lg bg-gray-50 p-4">
@@ -198,19 +206,19 @@ const AdminOrderDetail = () => {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <div className="mb-1 text-gray-600">Hộ tên</div>
-              <div className="font-medium">{order.name}</div>
+              <div className="font-medium">{order?.name}</div>
             </div>
             <div>
               <div className="mb-1 flex items-center gap-2 text-gray-600">
                 <Phone className="h-4 w-4" /> Số điện thoại
               </div>
-              <div className="font-medium">{order.phone}</div>
+              <div className="font-medium">{order?.phone}</div>
             </div>
             <div className="md:col-span-2">
               <div className="mb-1 flex items-center gap-2 text-gray-600">
                 <MapPin className="h-4 w-4" /> Địa chỉ giao hàng
               </div>
-              <div className="font-medium">{order.address}</div>
+              <div className="font-medium">{order?.address}</div>
             </div>
           </div>
         </div>
@@ -228,7 +236,9 @@ const AdminOrderDetail = () => {
                 className="flex gap-4 rounded-lg bg-gray-50 p-4"
               >
                 <div className="flex-1">
-                  <h3 className="mb-2 font-medium">{product.productId.name}</h3>
+                  <h3 className="mb-2 font-medium">
+                    {product?.productId?.name}
+                  </h3>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <div className="text-gray-600">Màu</div>
@@ -245,7 +255,7 @@ const AdminOrderDetail = () => {
                     <div>
                       <div className="text-gray-600">Giá</div>
                       <div className="font-medium text-[#FF3D00]">
-                        {formatPrice(product.productId.price)}
+                        {formatPrice(product?.productId?.price)}
                       </div>
                     </div>
                   </div>
@@ -259,7 +269,7 @@ const AdminOrderDetail = () => {
             <div className="flex items-center justify-between">
               <div className="text-lg font-semibold">Tổng số tiền</div>
               <div className="text-xl font-bold text-[#FF3D00]">
-                {formatPrice(order.totalPrice)}
+                {formatPrice(order?.totalPrice)}
               </div>
             </div>
           </div>

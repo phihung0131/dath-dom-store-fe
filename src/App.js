@@ -85,7 +85,16 @@ export default function App() {
           <Route path="support" element={<AdminSupport />} />
           <Route path="vouchers" element={<AdminVoucher />} />
           <Route path="promotions" element={<AdminPromotion />} />
-          <Route path="users" element={<AdminUser />} />
+          <Route
+            path="users"
+            element={
+              role === "OWNER" ? (
+                <AdminUser />
+              ) : (
+                <Navigate to="/admin/dashboard" />
+              )
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -8,11 +8,61 @@ import {
   ChevronRight,
   ShoppingCart,
   Search,
+  CheckCircle2,
+  XCircle,
+  Truck,
+  CreditCard,
 } from "lucide-react";
 
 import Header from "../components/customer/common/Header";
 import Footer from "../components/customer/common/Footer";
 import apiService from "../services/api";
+
+const StatusEdit = ({ currentStatus }) => {
+  const statusConfig = {
+    Success: {
+      color: "bg-green-100 text-green-800",
+      icon: CheckCircle2,
+    },
+    Failure: {
+      color: "bg-red-100 text-red-800",
+      icon: XCircle,
+    },
+    Delivering: {
+      color: "bg-blue-100 text-blue-800",
+      icon: Truck,
+    },
+    "Order successful": {
+      color: "bg-green-100 text-green-800",
+      icon: CheckCircle2,
+    },
+    "Preparing goods": {
+      color: "bg-yellow-100 text-yellow-800",
+      icon: Package,
+    },
+    "Waiting for payment": {
+      color: "bg-orange-100 text-orange-800",
+      icon: CreditCard,
+    },
+  };
+
+  return (
+    <div className="flex items-center gap-4">
+      <div
+        className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ${
+          statusConfig[currentStatus]?.color
+        }`}
+      >
+        {statusConfig[currentStatus]?.icon &&
+          React.createElement(statusConfig[currentStatus].icon, {
+            className: "h-4 w-4",
+          })}
+        {currentStatus}
+      </div>
+    </div>
+  );
+};
+
 const OrderList = () => {
   const navigate = useNavigate();
 
@@ -89,15 +139,8 @@ const OrderList = () => {
                 <div className="flex-1">
                   <div className="mb-2 flex items-start justify-between">
                     <h3 className="font-medium text-gray-900">{order.name}</h3>
-                    <span
-                      className={`rounded-full px-3 py-1 text-sm ${
-                        order.status === "Order successful"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {order.status}
-                    </span>
+
+                    <StatusEdit currentStatus={order.status} />
                   </div>
 
                   <div className="space-y-1 text-sm text-gray-600">
@@ -116,7 +159,9 @@ const OrderList = () => {
                   </p>
                   <div className="flex items-center gap-1 text-gray-600">
                     <ShoppingCart className="h-4 w-4" />
-                    <span className="text-sm">{order.totalProduct} sản phẩm</span>
+                    <span className="text-sm">
+                      {order.totalProduct} sản phẩm
+                    </span>
                   </div>
                 </div>
               </div>

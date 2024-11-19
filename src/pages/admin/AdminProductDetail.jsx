@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Edit2,
@@ -10,12 +11,14 @@ import {
   ShoppingBag,
   DollarSign,
   Layers,
+  BadgeDollarSign,
 } from "lucide-react";
 
 import EditModal from "../../components/admin/product/EditModal";
 import PromotionModal from "../../components/admin/product/PromotionModal";
 
 import apiService from "../../services/api";
+import PromotionManagement from "../../components/admin/promotion/PromotionManagement";
 
 const COLORS = {
   Black: "#000000",
@@ -32,12 +35,14 @@ const COLORS = {
 };
 
 const AdminProductDetail = () => {
+  const auth = useSelector((state) => state.auth);
   const { id } = useParams();
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [isAddingPromotion, setIsAddingPromotion] = useState(false);
   const [product, setProduct] = useState(null);
+  const [promotions, setPromotions] = useState([]);
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) =>
@@ -70,6 +75,16 @@ const AdminProductDetail = () => {
       })
       .catch((err) => {
         console.error("Get product detail failed:", err);
+      });
+
+    apiService
+      .getPromotionsForProduct(id)
+      .then((res) => {
+        // console.log("Promotions:", res.data.data.promotions);
+        setPromotions(res.data.data.promotions);
+      })
+      .catch((err) => {
+        console.error("Get promotions failed:", err);
       });
   }, []);
 
@@ -148,7 +163,7 @@ const AdminProductDetail = () => {
                 <p className="text-2xl font-bold text-[#FF3D00]">
                   {product?.price.toLocaleString("vi-VN")} ₫
                 </p>
-                {!product?.promotionalPrice && (
+                {!product?.promotionalPrice && auth.role === "OWNER" && (
                   <button
                     onClick={() => setIsAddingPromotion(true)}
                     className="mt-2 flex items-center text-sm text-[#FF3D00] hover:underline"
@@ -246,6 +261,24 @@ const AdminProductDetail = () => {
                 </table>
               </div>
             </div>
+
+            {/* Promotions */}
+            {promotions.length > 0 && (
+              <div className="rounded-lg bg-gray-100 px-4 pt-4 shadow-sm">
+                <div className="mb-2 flex items-center">
+                  <BadgeDollarSign size={20} className="mr-2 text-[#FF3D00]" />
+                  <h3 className="font-semibold text-gray-700">
+                    Khuyến mãi sản phẩm
+                  </h3>
+                </div>
+                {promotions?.map((promotion) => (
+                  <PromotionManagement
+                    key={promotion._id}
+                    promotion={promotion}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -33,8 +33,10 @@ const PromotionModal = ({ isOpen, onClose, productId }) => {
       )
       .then((res) => {
         alert("Thêm khuyến mãi thành công!");
+        window.location.reload();
       })
       .catch((err) => {
+        console.log("Error creating promotion:", err);
         alert(err.response.data.message);
       });
 

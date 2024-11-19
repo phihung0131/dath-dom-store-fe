@@ -10,12 +10,60 @@ import {
   CircleDollarSign,
   CheckCircle2,
   XCircle,
+  Truck,
+  CreditCard,
 } from "lucide-react";
 
 import Footer from "../components/customer/common/Footer";
 import Header from "../components/customer/common/Header";
 import { useParams } from "react-router-dom";
 import apiService from "../services/api";
+
+const StatusEdit = ({ currentStatus }) => {
+  const statusConfig = {
+    Success: {
+      color: "bg-green-100 text-green-800",
+      icon: CheckCircle2,
+    },
+    Failure: {
+      color: "bg-red-100 text-red-800",
+      icon: XCircle,
+    },
+    Delivering: {
+      color: "bg-blue-100 text-blue-800",
+      icon: Truck,
+    },
+    "Order successful": {
+      color: "bg-green-100 text-green-800",
+      icon: CheckCircle2,
+    },
+    "Preparing goods": {
+      color: "bg-yellow-100 text-yellow-800",
+      icon: Package,
+    },
+    "Waiting for payment": {
+      color: "bg-orange-100 text-orange-800",
+      icon: CreditCard,
+    },
+  };
+
+  return (
+    <div className="flex items-center gap-4">
+      <div
+        className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ${
+          statusConfig[currentStatus]?.color
+        }`}
+      >
+        {statusConfig[currentStatus]?.icon &&
+          React.createElement(statusConfig[currentStatus].icon, {
+            className: "h-4 w-4",
+          })}
+        {currentStatus}
+      </div>
+    </div>
+  );
+};
+
 const OrderDetail = () => {
   const { id } = useParams();
   const [order, setOrder] = useState({});
@@ -60,19 +108,8 @@ const OrderDetail = () => {
               <Package className="text-[#FF3D00]" />
               Đơn hàng chi tiết
             </h1>
-            <span
-              className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ${
-                order.status === "Order successful"
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
-              }`}
-            >
-              {order.status === "Order successful" ? (
-                <CheckCircle2 className="h-4 w-4" />
-              ) : (
-                <XCircle className="h-4 w-4" />
-              )}
-              {order.status}
+            <span className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium">
+              <StatusEdit currentStatus={order.status} />
             </span>
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">

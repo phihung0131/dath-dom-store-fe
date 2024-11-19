@@ -29,6 +29,7 @@ const AdminOrder = () => {
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     apiService
       .getAdminOrders(
         filter.page,
