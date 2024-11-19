@@ -17,7 +17,7 @@ import {
 import { useParams } from "react-router-dom";
 import apiService from "../../services/api";
 
-const StatusEdit = ({ currentStatus, orderId, setTemp }) => {
+const StatusEdit = ({ currentStatus, orderId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(currentStatus);
 
@@ -53,13 +53,12 @@ const StatusEdit = ({ currentStatus, orderId, setTemp }) => {
       .putAdminOrder(orderId, selectedStatus)
       .then((res) => {
         alert("Cập nhật trạng thái thành công");
+        window.location.reload();
       })
       .catch((err) => {
         alert("Cập nhật trạng thái thất bại");
         console.log(err);
       });
-    console.log(selectedStatus);
-    setTemp((prev) => prev + 1);
     setIsEditing(false);
   };
 
@@ -90,7 +89,7 @@ const StatusEdit = ({ currentStatus, orderId, setTemp }) => {
   return (
     <div className="flex items-center gap-2">
       <select
-        value="Trạng thái"
+        value={selectedStatus}
         onChange={(e) => setSelectedStatus(e.target.value)}
         className="rounded-md border p-2 text-sm"
       >
@@ -120,7 +119,6 @@ const StatusEdit = ({ currentStatus, orderId, setTemp }) => {
 const AdminOrderDetail = () => {
   const { id } = useParams();
   const [order, setOrder] = useState({});
-  const [temp, setTemp] = useState(0);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("vi-VN", {
@@ -151,7 +149,7 @@ const AdminOrderDetail = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [id, temp]);
+  }, [id]);
 
   return (
     <div>
@@ -163,7 +161,7 @@ const AdminOrderDetail = () => {
               <Package className="text-[#FF3D00]" />
               Đơn hàng chi tiết
             </h1>
-            <StatusEdit currentStatus={order.status} />
+            <StatusEdit currentStatus={order.status} orderId={order._id} />
           </div>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             <div className="rounded-lg bg-gray-50 p-4">
