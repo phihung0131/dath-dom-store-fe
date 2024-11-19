@@ -95,7 +95,7 @@ const AdminProductDetail = () => {
         <div className="flex items-center justify-between bg-[#FF3D00] p-4 text-white">
           <div>
             <h1 className="text-2xl font-bold">{product?.name}</h1>
-            <p className="text-sm opacity-80">{product?.category.name}</p>
+            <p className="text-sm opacity-80">{product?.category?.name}</p>
           </div>
           <div className="flex items-center space-x-2">
             <button
