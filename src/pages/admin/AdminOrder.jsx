@@ -30,6 +30,8 @@ const AdminOrder = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Quản Lý Đơn Hàng";
+
     apiService
       .getAdminOrders(
         filter.page,

@@ -95,6 +95,7 @@ const OrderList = () => {
   };
 
   useEffect(() => {
+    document.title = "Tiệm Giày Đóm | Đơn hàng";
     apiService
       .getOrders()
       .then((res) => {

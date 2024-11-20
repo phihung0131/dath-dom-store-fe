@@ -67,6 +67,8 @@ const AdminProductDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Quản Lý Sản Phẩm Chi Tiết";
+
     apiService
       .getAProduct(id)
       .then((res) => {

@@ -86,6 +86,7 @@ const OrderDetail = () => {
   };
 
   useEffect(() => {
+    document.title = "Tiệm Giày Đóm | Chi tiết đơn hàng";
     apiService
       .getOrder(id)
       .then((res) => {

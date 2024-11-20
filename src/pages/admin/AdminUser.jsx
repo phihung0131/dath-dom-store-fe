@@ -62,6 +62,9 @@ const AdminUser = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = "Phân Quyền Người Dùng";
+
     apiService
       .getUsers("ADMIN")
       .then((res) => {

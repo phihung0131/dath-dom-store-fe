@@ -30,6 +30,7 @@ const AdminPromotion = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Quản Lý Khuyến Mãi";
 
     apiService
       .getPromotions()

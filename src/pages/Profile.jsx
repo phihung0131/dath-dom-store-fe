@@ -98,6 +98,7 @@ const Profile = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Tiệm Giày Đóm | Thông Tin";
     apiService
       .getProfile(auth.token)
       .then((res) => {

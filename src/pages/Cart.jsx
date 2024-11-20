@@ -23,7 +23,7 @@ const Cart = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
+    document.title = "Tiệm Giày Đóm | Giỏ Hàng";
     apiService
       .getCarts()
       .then((res) => {
@@ -99,7 +99,7 @@ const Cart = () => {
 
         <div className="mt-16 grid gap-8 md:grid-cols-3">
           <div className="space-y-4 md:col-span-2">
-            {carts?.productInfo?.map((product, index) => (
+            {carts?.productInfo?.map((product) => (
               <>
                 <div className="grid grid-cols-3 items-start gap-4">
                   <div className="col-span-2 flex items-start gap-4">
@@ -198,6 +198,26 @@ const Cart = () => {
                 <hr className="border-gray-300" />
               </>
             ))}
+
+            {carts?.productInfo?.length === 0 && (
+              <div className="mt-16 flex flex-col items-center">
+                <img
+                  src="https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg"
+                  alt="Empty Cart"
+                  className="h-40 w-40"
+                />
+                <h2 className="mt-6 text-lg font-bold text-gray-800">
+                  Giỏ hàng của bạn đang trống
+                </h2>
+                <button
+                  onClick={() => navigate("/")}
+                  type="button"
+                  className="mt-6 rounded-md bg-[#FF3D00] px-4 py-2.5 font-semibold text-white"
+                >
+                  Tiếp tục mua hàng
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="h-max rounded-md bg-gray-100 p-4">

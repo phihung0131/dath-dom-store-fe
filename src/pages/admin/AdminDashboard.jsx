@@ -33,6 +33,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Dashboard";
     apiService
       .getReportOrdersSummary()
       .then((res) => {

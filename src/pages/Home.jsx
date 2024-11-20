@@ -9,6 +9,8 @@ import Footer from "../components/customer/common/Footer";
 const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Tiệm Giày Đóm | Trang chủ";
+
   }, []);
 
   return (

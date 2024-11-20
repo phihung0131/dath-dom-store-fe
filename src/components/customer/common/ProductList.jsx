@@ -38,7 +38,7 @@ const ProductList = (props) => {
         setProducts(props.products);
         break;
       case "seenProducts":
-        console.log("seenProducts: ", seenProducts);
+        // console.log("seenProducts: ", seenProducts);
         setProducts(seenProducts.products);
         break;
       default:
@@ -46,9 +46,9 @@ const ProductList = (props) => {
     }
   }, [props.products]);
 
-  useEffect(() => {
-    console.log("props.products: ", products);
-  }, [products]);
+  // useEffect(() => {
+  //   console.log("props.products: ", products);
+  // }, [products]);
 
   return (
     <>

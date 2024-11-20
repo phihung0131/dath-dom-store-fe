@@ -66,6 +66,7 @@ const AdminVoucher = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Quản Lý Voucher";
 
     apiService
       .getVouchers()

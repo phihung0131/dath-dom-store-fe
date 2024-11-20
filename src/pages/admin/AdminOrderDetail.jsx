@@ -139,6 +139,7 @@ const AdminOrderDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Quản Lý Đơn Hàng Chi Tiết";
 
     apiService
       .getAdminAOrder(id)

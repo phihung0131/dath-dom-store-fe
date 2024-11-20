@@ -99,6 +99,7 @@ const Support = () => {
   };
 
   useEffect(() => {
+    document.title = "Tiệm Giày Đóm | Hỗ Trợ";
     apiService
       .getSupportTickers()
       .then((res) => {
