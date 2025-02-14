@@ -24,8 +24,7 @@ jobs:
 
     - name: Build Project
       env:
-        CI: false
-        REACT_APP_API_URL: "https://domstore.onrender.com/api/v1" 
+        CI: false # Prevents treating warnings as errors
       run: npm run build
 
     - name: Prepare Web Config
@@ -40,6 +39,7 @@ jobs:
                   <conditions logicalGrouping="MatchAll">
                     <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
                     <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+                    <add input="{REQUEST_URI}" pattern="^/(api)" negate="true" />
                   </conditions>
                   <action type="Rewrite" url="/" />
                 </rule>
@@ -55,7 +55,7 @@ jobs:
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v4
       with:
-        name: react-app
+        name: vite-react-app
         path: build
 
     - name: Deploy to Azure Web App
@@ -64,5 +64,5 @@ jobs:
       with:
         app-name: 'domstorefe'
         slot-name: 'Production'
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-        package: build
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E81C738C1E264F7887CEB737488E3D32 }}
+        package: .
